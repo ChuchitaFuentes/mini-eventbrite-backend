@@ -2,21 +2,24 @@
   "name": "mini-eventbrite-backend",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "type": "module",
+ "scripts": {
+   "dev": "nodemon --exec node src/server.js",
+   "start": "node src/server.js",
+   "build": "echo 'No build step needed for Node ESM'"
+ },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ChuchitaFuentes/mini-eventbrite-backend.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["express", "nodemon","JWT", "Token", "Server"],
+  "author": "María de Jesús Fuentes Núñez",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ChuchitaFuentes/mini-eventbrite-backend/issues"
   },
   "homepage": "https://github.com/ChuchitaFuentes/mini-eventbrite-backend#readme",
-  "description": "",
+  "description": "Este es un proyecto dedicado al uso lúdico para la creación de una boletera para eventos, cuyo desarrollo va orientado a un producto mínimo viable para backend.",
   "dependencies": {
     "@supabase/supabase-js": "^2.56.0",
     "bcryptjs": "^3.0.2",
