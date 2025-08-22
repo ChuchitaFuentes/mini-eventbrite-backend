@@ -1,5 +1,5 @@
-import { connectMongo } from "./db/mongo";
-import { env } from "./config/env";
+import { connectMongo } from "./db/mongo.js";
+import { env } from "./config/env.js";
 
 //const app = buildApp();
 connectMongo().then(()=>{

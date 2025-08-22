@@ -1,5 +1,5 @@
-import { unauthorized, forbidden } from "../utils/errors";
-import { verifyAccessToken } from "../utils/jwt";
+import { unauthorized, forbidden } from "../utils/errors.js";
+import { verifyAccessToken } from "../utils/jwt.js";
 
 export function requireAuth(req, _res, next){
     const header = req.headers.authorization;
