@@ -22,9 +22,9 @@ const userSchema = new mongoose.Schema({
     type: String, 
     enum: ['user','organizer','staff','admin'], 
     default: 'user'},
-}, { timestamp: true });
+}, { timestamps: true });
 
-userSchema.static.hashPassword = async function (password) {
+userSchema.statics.hashPassword = async function (password) {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
 }
