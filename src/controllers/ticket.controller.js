@@ -18,12 +18,20 @@ export async function scan(req, res, next) {
   try {
     const { token } = req.body;
     if (!token) throw new AppError('Missing token', 400, 'MISSING_TOKEN');
+
     let data;
-    try { data = JSON.parse(token); } catch { throw new AppError('Invalid token', 400, 'INVALID_TOKEN'); }
+    if (typeof token === 'string') {
+      try { data = JSON.parse(token); } 
+      catch { throw new AppError('Invalid token', 400, 'INVALID_TOKEN'); }
+    } else if (typeof token === 'object' && token !== null) {
+      data = token; // permite enviar { t, s } directo
+    } else {
+      throw new AppError('Invalid token', 400, 'INVALID_TOKEN');
+    }
+
     const { t, s } = data || {};
     if (!t || !s) throw new AppError('Invalid token', 400, 'INVALID_TOKEN');
 
-    // verify signature
     const h = crypto.createHmac('sha256', env.qrSigningSecret);
     h.update(t);
     const expected = h.digest('hex');
