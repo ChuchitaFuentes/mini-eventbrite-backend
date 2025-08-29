@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import { env } from '../config/env.js';
 
 
-export async function name(req, res, next) {
+export async function purchase(req, res, next) {
     try {
         const ticket = await Tickets.purchase(req.body, req.user.sub);
         res.status(201).json({ ticket });
