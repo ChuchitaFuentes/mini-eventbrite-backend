@@ -1,5 +1,5 @@
-import { unauthorized, forbidden } from "../utils/errors";
-import { verifyAccessToken } from "../utils/jwt";
+import { unauthorized, forbidden } from "../utils/errors.js";
+import { verifyAccessToken } from "../utils/jwt.js";
 
 export function requireAuth(req, _res, next){
     const header = req.headers.authorization;
@@ -14,7 +14,7 @@ export function requireAuth(req, _res, next){
     }
 }
 
-export function requireRole(...role){
+export function requireRole(...roles){
     return (req,_res, next) => {
         if (!req.user) return next(unauthorized());
         if (!roles.includes(req.user.role)) return next(forbidden('Insufficient role'));
