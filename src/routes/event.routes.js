@@ -9,6 +9,7 @@ const router = Router();
 
 router.get('/', EventCtrl.list);
 router.get('/:id', validateMongoIdParam('id'), EventCtrl.get);
+router.get('/:id/occupied', validateMongoIdParam('id'), EventCtrl.getOccupied);
 
 // Only organizers can create events
 router.post('/', requireAuth, requireRole('organizer','admin'), validateBody(createEventSchema), EventCtrl.create);
