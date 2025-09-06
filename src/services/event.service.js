@@ -12,8 +12,43 @@ export async function getById(id) {
 }
 
 export async function createEvent(input, ownerId) {
-  const e = await Event.create({ ...input, owner: ownerId });
-  return e.toObject();
+  const { seatMap } = input;
+
+  if (!seatMap || !seatMap.type) {
+    throw new Error('seatMap.type es requerido');
+  }
+
+  // Si es GA
+  if (seatMap.type === 'ga') {
+    // Convertir a número
+    const capacity = Number(seatMap.capacity);
+
+    // Validar que sea un número positivo
+    if (isNaN(capacity) || capacity <= 0) {
+      throw new Error('La capacidad debe ser mayor a 0 para eventos GA');
+    }
+
+    // Guardar capacity como número
+    seatMap.capacity = capacity;
+
+    // Limpiar campos que no se usan en GA
+    seatMap.rows = 0;
+    seatMap.cols = 0;
+    seatMap.sold = 0;
+  }
+
+  // Si es Grid
+  if (seatMap.type === 'grid') {
+    if (!seatMap.rows || !seatMap.cols) {
+      throw new Error('Debes especificar filas y columnas para eventos Grid');
+    }
+    // Limpiar valores de GA
+    seatMap.capacity = 0;
+    seatMap.sold = 0;
+  }
+
+  const event = await Event.create({ ...input, owner: ownerId });
+  return event.toObject();
 }
 
 export async function occupiedSeats(eventId, TicketModel) {

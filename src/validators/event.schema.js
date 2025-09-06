@@ -1,9 +1,23 @@
 import { z } from 'zod';
 
 export const seatMapSchema = z.object({
-  type: z.enum(['grid','ga']).default('grid'),
+  type: z.enum(['grid', 'ga']).default('grid'),
   rows: z.number().int().min(1).max(200).default(10),
   cols: z.number().int().min(1).max(200).default(10),
+  // Campos para GA (opcional para Grid)
+  capacity: z.number().int().min(1).optional(),
+  sold: z.number().int().min(0).optional()
+}).refine((data) => {
+  // Validación condicional según el tipo
+  if (data.type === 'grid') {
+    return data.rows != null && data.cols != null;
+  }
+  if (data.type === 'ga') {
+    return data.capacity != null;
+  }
+  return false;
+}, {
+  message: "Campos inválidos según el tipo de asiento"
 });
 
 export const createEventSchema = z.object({

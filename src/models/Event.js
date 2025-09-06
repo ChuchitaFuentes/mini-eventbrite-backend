@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
 
 const seatMapSchema = new mongoose.Schema({
-  type: { type: String, enum: ['grid','ga'], default: 'grid' },
+  type: { type: String, enum: ['grid', 'ga'], default: 'grid' },
+  // Estos campos se usan SOLO en tipo grid
   rows: { type: Number, default: 10 },
   cols: { type: Number, default: 10 },
+
+  // Estos campos se usan SOLO en tipo ga
+  capacity: { type: Number, default: 0 },
+  sold: { type: Number, default: 0 },
 }, { _id: false });
 
 const eventSchema = new mongoose.Schema({

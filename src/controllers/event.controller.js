@@ -18,7 +18,10 @@ export async function create(req, res, next) {
   try {
     const item = await Events.createEvent(req.body, req.user.sub);
     res.status(201).json({ item });
-  } catch (e) { next(e); }
+  } catch (e) {
+    console.error('❌ Error en create event:', e); // <-- VER EL ERROR CLARO
+    res.status(500).json({ error: e.message || 'Error interno del servidor' });
+  }
 }
 
 export async function getOccupied(req, res, next) {
