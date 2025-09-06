@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-
 const seatSchema = new mongoose.Schema({
-  row: { type: Number, required: true },
-  col: { type: Number, required: true },
+  row: { type: Number, required: true }, // Opcional para GA
+  col: { type: Number, required: true }, // Opcional para GA
 }, { _id: false });
 
 const ticketSchema = new mongoose.Schema({
@@ -14,6 +13,13 @@ const ticketSchema = new mongoose.Schema({
   checkedInAt: { type: Date, default: null },
 }, { timestamps: true });
 
-ticketSchema.index({ event: 1, 'seat.row': 1, 'seat.col': 1 }, { unique: true });
+// Partial index: solo aplica para tickets Grid
+ticketSchema.index(
+  { event: 1, 'seat.row': 1, 'seat.col': 1 },
+  {
+    unique: true,
+    partialFilterExpression: { 'seat.row': { $gt: 0 }, 'seat.col': { $gt: 0 } }
+  }
+);
 
 export const Ticket = mongoose.model('Ticket', ticketSchema);
